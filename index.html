@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>KhoLieu UAT</title>
+<style>
+:root{--paper:#eef1f4;--surface:#fff;--ink:#1c242c;--muted:#5b6773;--line:#d5dde4;--accent:#1f4b63}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:Segoe UI,Be Vietnam Pro,sans-serif;color:var(--ink);background:var(--paper)}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.screen{display:none;min-height:100vh}.screen.on{display:block}
+.login{min-height:100vh;background:#3d5d70;position:relative}
+.bar{height:6px;background:#c0392b}
+.card-wrap{min-height:calc(100vh - 6px);display:flex;align-items:center;justify-content:center;padding:48px 16px}
+.card{width:100%;max-width:352px;border-radius:16px;padding:32px 28px;color:#fff;background:linear-gradient(180deg,rgba(70,112,138,.92),rgba(46,84,110,.96));box-shadow:0 18px 50px rgba(0,0,0,.28)}
+.card h1{margin:0;font-size:26px}.sub{margin:6px 0 0;color:#e0f2fe;font-size:14px}
+.card label{display:block;margin-top:18px;font-size:14px}
+.card input,.card select{margin-top:6px;width:100%;height:44px;border:0;border-radius:8px;padding:0 12px}
+.hint{margin:12px 0 0;font-size:12px;color:#e8f4fb}
+.pwbox{margin-top:8px;padding:8px 10px;border-radius:8px;background:rgba(255,255,255,.16);font-family:ui-monospace,monospace;font-size:12px}
+.err{margin-top:8px;color:#fecaca}
+.login-btn{margin-top:20px;width:100%;height:44px;border:0;border-radius:8px;background:#fff;color:#1d4f86;font-weight:600}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:0 20px;height:56px;background:var(--accent);color:#fff}
+.chip{height:32px;padding:0 12px;border-radius:6px;border:1px solid rgba(255,255,255,.25);background:transparent;color:#fff}
+.toolbar{display:flex;flex-wrap:wrap;align-items:end;gap:12px;padding:14px 20px;background:#fff;border-bottom:1px solid var(--line)}
+.field{display:flex;flex-direction:column;gap:4px;min-width:160px}.field.grow{flex:1;min-width:220px}
+.field span{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase}
+.field input,.field select{height:38px;border:1px solid var(--line);border-radius:6px;padding:0 10px}
+.btnrow{display:flex;gap:8px;align-items:center}
+.btn{height:38px;padding:0 14px;border-radius:6px;border:1px solid var(--line);background:#fff;display:inline-flex;align-items:center}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.work{display:grid;grid-template-columns:minmax(0,1fr) 340px}
+@media(max-width:980px){.work{grid-template-columns:1fr}}
+.pane{padding:18px 20px}.aside{background:#fff;border-left:1px solid var(--line);padding:18px 16px}
+.banner{padding:10px 12px;border-radius:6px;background:#e8eef2;color:var(--muted);font-size:13px}
+.kpi{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}
+.kpi div{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px}
+.kpi b{display:block;font-size:20px;margin-top:4px}
+.navrow{display:flex;gap:8px;align-items:center;margin:10px 0}
+.navrow .btn{height:32px;font-size:12px}
+.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:6px;max-height:calc(100vh - 280px);background:#fff}
+.table-wrap.off{display:none}
+table.grid{width:max-content;min-width:100%;border-collapse:collapse;font-size:12px}
+th,td{border:1px solid #cfd8e0;padding:3px 8px;white-space:nowrap}
+th{background:#1f4b63;color:#fff;position:sticky;top:0}
+td.num{text-align:right}th.pin,td.pin{position:sticky;left:0;background:#fff;min-width:220px}
+th.pin{background:#17384a}
+.views{display:flex;border:1px solid var(--line);border-radius:6px;overflow:hidden;width:fit-content;margin-top:10px}
+.views button{height:32px;padding:0 14px;border:0;background:#fff}.views button.on{background:var(--accent);color:#fff}
+.dash{display:none;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-top:10px}.dash.on{display:grid}
+.dash .card{background:#fff;border:1px solid var(--line);border-radius:8px;padding:12px}
+textarea{width:100%;min-height:120px;border:1px solid var(--line);border-radius:6px;padding:10px}
+.facts{list-style:none;padding:0}.facts li{font-family:ui-monospace,monospace;font-size:12px;background:var(--paper);padding:7px 8px;border-radius:6px;margin-top:6px}
+.userbox{max-width:420px;padding:24px 20px}.userbox input{width:100%;height:38px;margin-top:4px;border:1px solid var(--line);border-radius:6px;padding:0 10px}
+.empty{padding:40px;text-align:center;color:var(--muted)}
+</style>
+</head>
+<body>
+<section id="login" class="screen login on"><div class="bar"></div><div class="card-wrap"><form class="card" id="login-form" onsubmit="return false;">
+<h1>Sign in</h1><p class="sub">UAT · LOCKED</p>
+<label>User name<select id="user"><option value="Admin" selected>Admin</option></select></label>
+<label>Password<input id="password" type="password" autocomplete="current-password" /></label>
+<p class="hint">Bản UAT training.</p>
+<div class="pwbox">Password: KhoLieu-UAT-2026</div>
+<p class="err" id="err" hidden></p>
+<button class="login-btn" type="button" id="login-btn">Log in</button>
+</form></div></section>
+<section id="studio" class="screen">
+<header class="topbar"><div>KhoLiệu</div><div><span>Admin</span> <button class="chip" type="button" id="btn-user-2">User</button> <button class="chip" type="button" id="btn-out-2">Đăng xuất</button></div></header>
+<div class="toolbar">
+<label class="field grow"><span>Tên báo cáo</span><input id="title" placeholder="Admin tự đặt tên" /></label>
+<label class="field"><span>Từ ngày</span><input id="from" type="date" /></label>
+<label class="field"><span>Đến ngày</span><input id="to" type="date" /></label>
+<div class="field"><span>Nguồn</span><div class="btnrow"><label class="btn primary">Nhập file<input id="file-in" type="file" multiple hidden accept=".xlsx,.xls,.csv,.txt,.tsv,.docx,.pdf,.png,.jpg" /></label><button class="btn" type="button" id="btn-clear">Xóa dữ liệu</button></div></div>
+<div class="field"><span>Xuất</span><div class="btnrow"><select id="export-kind"><option value="xlsx">Excel</option><option value="csv">CSV</option><option value="txt">TXT</option><option value="json">JSON</option><option value="doc">Word</option><option value="print">PDF / In</option></select><button class="btn primary" type="button" id="btn-export">Xuất</button></div></div>
+</div>
+<div class="work"><div class="pane">
+<p class="banner" id="data-flag">Chưa nhập file. Màn hình trống.</p>
+<div class="kpi"><div>Số dòng<b id="k-rows">0</b></div><div>Tổng<b id="k-sum">—</b></div><div>File<b id="k-src">0</b></div></div>
+<div class="views"><button type="button" class="on" id="tab-grid">Bảng</button><button type="button" id="tab-dash">Dashboard</button></div>
+<div class="navrow"><button class="btn" type="button" id="col-home">Cột đầu</button><button class="btn" type="button" id="col-left">← Trái</button><button class="btn" type="button" id="col-right">Phải →</button><button class="btn" type="button" id="col-end">Cột cuối</button></div>
+<div class="table-wrap" id="table-wrap"><table class="grid"><thead id="thead"></thead><tbody id="tbody"></tbody></table><div class="empty" id="empty">Nhập file để bắt đầu.</div></div>
+<div class="dash" id="dash"></div>
+</div>
+<aside class="aside"><h3>Phân tích</h3><p>Hết SuperGrok: công thức + engine. Preview không gọi Grok.</p><textarea id="q" placeholder="Nhập yêu cầu khi đã có file."></textarea><button class="btn primary" style="width:100%;margin-top:8px" type="button" id="btn-ask">Chạy phân tích</button><p id="answer"></p><ul class="facts" id="facts"></ul></aside>
+</div></section>
+<section id="userpage" class="screen"><header class="topbar"><div>KhoLiệu</div><button class="chip" type="button" id="btn-back">Quay lại</button></header>
+<form class="userbox" id="pw-form"><h2>User Maintenance</h2><label>Mật khẩu hiện tại <input id="cur" type="password" /></label><label>Mật khẩu mới <input id="nxt" type="password" /></label><p id="pw-msg"></p><button class="btn primary" type="submit">Đổi mật khẩu</button></form></section>
+<script>
+const KEY="kholieu-preview-uat-v2",SES="kholieu-preview-session-v1",UAT_PASS="KhoLieu-UAT-2026";
+const $=id=>document.getElementById(id);
+const show=id=>{document.querySelectorAll(".screen").forEach(el=>el.classList.remove("on"));$(id).classList.add("on")};
+const readChanged=()=>{try{return localStorage.getItem(KEY+"-changed")}catch{return null}};
+const writeChanged=v=>{try{localStorage.setItem(KEY+"-changed",v)}catch{}};
+function boot(){try{if(sessionStorage.getItem(SES)==="1"||localStorage.getItem(SES)==="1")show("studio")}catch{}}
+window.kholieuLogin=function(){try{$("err").hidden=true;const password=($("password").value||"").trim();if($("user").value!=="Admin"){$("err").hidden=false;$("err").textContent="User name phải là Admin.";return false}if(password!==UAT_PASS&&password!==readChanged()){$("err").hidden=false;$("err").textContent="Sai mật khẩu. Dùng KhoLieu-UAT-2026";return false}try{sessionStorage.setItem(SES,"1");localStorage.setItem(SES,"1")}catch{}show("studio")}catch(err){$("err").hidden=false;$("err").textContent=String(err.message||err)}return false};
+$("login-form").addEventListener("submit",e=>{e.preventDefault();window.kholieuLogin()});
+$("login-btn").addEventListener("click",e=>{e.preventDefault();window.kholieuLogin()});
+function logout(){try{sessionStorage.removeItem(SES);localStorage.removeItem(SES)}catch{}$("password").value="";show("login")}
+$("btn-out-2").onclick=logout;$("btn-user-2").onclick=()=>show("userpage");$("btn-back").onclick=()=>show("studio");
+let pack={cols:[],rows:[],files:[]},view=null;
+function toNumber(v){const n=Number(String(v).replace(/,/g,"").replace(/[^\d.-]/g,""));return Number.isFinite(n)?n:null}
+function fmt(n){return new Intl.NumberFormat("vi-VN").format(n)}
+function fold(s){return String(s||"").normalize("NFD").replace(/\p{M}/gu,"").toLowerCase().replace(/['’]/g,"").replace(/\s+/g," ").trim()}
+function isNumCol(i,rows){let n=0,t=0;for(const r of rows){if(r[i]===""||r[i]==null)continue;t++;if(toNumber(r[i])!==null)n++}return t>0&&n/t>=.6}
+function findCol(cols,hints){const hs=hints.map(fold);let best=-1,score=0;cols.forEach((c,i)=>{const f=fold(c);hs.forEach(h=>{if(!h)return;let s=0;if(f===h)s=100;else if(f.includes(h)||h.includes(f))s=70+Math.min(h.length,f.length);if(s>score){score=s;best=i}})});return score>=40?best:-1}
+function orderCols(cols,rows){const pin=cols.findIndex((_,i)=>!isNumCol(i,rows));if(pin<=0)return{cols,rows};return{cols:[cols[pin]].concat(cols.filter((_,i)=>i!==pin)),rows:rows.map(r=>[r[pin]].concat(r.filter((_,i)=>i!==pin)))}}
+function renderGrid(cols,rows){const laid=orderCols(cols,rows);cols=laid.cols;rows=laid.rows;const num=cols.map((_,i)=>isNumCol(i,rows));$("thead").innerHTML=cols.length?"<tr>"+cols.map((c,i)=>"<th class='"+(i===0&&!num[0]?"pin":"")+"'>"+c+"</th>").join("")+"</tr>":"";$("tbody").innerHTML=rows.map(r=>"<tr>"+cols.map((c,i)=>{const raw=r[i]==null?"":r[i];const n=num[i]?toNumber(raw):null;const empty=i===0&&!num[0]&&(raw===0||raw==="0");const txt=empty?"":(n!==null?fmt(n):raw);return "<td class='"+(i===0&&!num[0]?"pin":"")+(num[i]?" num":"")+"'>"+txt+"</td>"}).join("")+"</tr>").join("");$("empty").style.display=rows.length?"none":"block";const valI=cols.findIndex(c=>fold(c)==="teu")>=0?cols.findIndex(c=>fold(c)==="teu"):cols.findIndex((_,i)=>num[i]);$("dash").innerHTML=rows.slice(0,12).map(r=>{const name=r[0]==null||r[0]===0||r[0]==="0"?"—":r[0];const val=valI>=0&&toNumber(r[valI])!=null?fmt(toNumber(r[valI])):"—";return "<div class='card'><small>"+name+"</small><b>"+val+"</b></div>"}).join("")}
+function renderPack(){const cols=view?view.cols:pack.cols,rows=view?view.rows:pack.rows;$("data-flag").textContent=!pack.rows.length?"Chưa nhập file. Màn hình trống.":(view?view.note:("Đã nhập "+pack.files.length+" file. "+pack.rows.length+" dòng."));const teuI=findCol(cols,["teu"]);const sumI=teuI>=0?teuI:cols.findIndex((_,i)=>isNumCol(i,rows));let sum=0;if(sumI>=0)rows.forEach(r=>{const x=toNumber(r[sumI]);if(x!==null)sum+=x});$("k-rows").textContent=String(rows.length);$("k-sum").textContent=sumI>=0?fmt(sum):"—";$("k-src").textContent=String(pack.files.length);renderGrid(cols,rows)}
+function parseDelimited(text){const lines=String(text||"").replace(/^\uFEFF/,"").split(/\r?\n/).map(l=>l.trim()).filter(Boolean);if(!lines.length)return{cols:["Nội dung"],rows:[]};const head=lines[0];const delim=head.indexOf("\t")>=0?"\t":(head.split(";").length>head.split(",").length?";":",");const cols=head.split(delim).map(c=>c.replace(/^"|"$/g,"").trim());const rows=lines.slice(1).map(line=>line.split(delim).map(c=>c.replace(/^"|"$/g,"").trim()));return{cols,rows}}
+function mergeSheet(name,cols,rows){if(!pack.cols.length)pack.cols=cols.slice();const map=cols.map(c=>{let i=pack.cols.indexOf(c);if(i<0){pack.cols.push(c);i=pack.cols.length-1}return i});rows.forEach(r=>{const next=new Array(pack.cols.length).fill("");map.forEach((dest,src)=>{next[dest]=r[src]==null?"":r[src]});pack.rows.push(next)});pack.files.push(name)}
+async function loadXlsx(){if(window.XLSX)return window.XLSX;await new Promise((resolve,reject)=>{const s=document.createElement("script");s.src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js";s.onload=resolve;s.onerror=reject;document.head.appendChild(s)});return window.XLSX}
+async function readFile(file){const name=file.name||"file",lower=name.toLowerCase();if(/\.(csv|tsv|txt)$/.test(lower)){const p=parseDelimited(await file.text());mergeSheet(name,p.cols,p.rows);return}if(/\.(xlsx|xls|xlsm|ods)$/.test(lower)){try{const XLSX=await loadXlsx();const wb=XLSX.read(await file.arrayBuffer(),{type:"array"});wb.SheetNames.forEach(sn=>{const aoa=XLSX.utils.sheet_to_json(wb.Sheets[sn],{header:1,raw:false,defval:""});if(!aoa.length)return;mergeSheet(name+" / "+sn,aoa[0].map((c,i)=>String(c||"Cột "+(i+1))),aoa.slice(1).filter(r=>r.some(c=>String(c).trim())))})}catch{mergeSheet(name,["Tệp"],[["Không đọc được Excel trên host này."]])}return}mergeSheet(name,["Tệp"],[["Đã gắn "+name]])}
+$("file-in").addEventListener("change",async ev=>{for(const file of [...(ev.target.files||[])])await readFile(file);ev.target.value="";view=null;renderPack()});
+const wrap=()=>$("table-wrap");
+$("col-home").onclick=()=>{wrap().scrollLeft=0};$("col-end").onclick=()=>{wrap().scrollLeft=wrap().scrollWidth};$("col-left").onclick=()=>{wrap().scrollLeft-=220};$("col-right").onclick=()=>{wrap().scrollLeft+=220};
+$("tab-grid").onclick=()=>{$("tab-grid").classList.add("on");$("tab-dash").classList.remove("on");$("table-wrap").classList.remove("off");$("dash").classList.remove("on")};
+$("tab-dash").onclick=()=>{$("tab-dash").classList.add("on");$("tab-grid").classList.remove("on");$("table-wrap").classList.add("off");$("dash").classList.add("on")};
+$("btn-clear").onclick=()=>{pack={cols:[],rows:[],files:[]};view=null;renderPack()};
+const ROLE={customer:["booking shipper","shipper","customer","khach hang","consignee"],teu:["teu"],volume:["teu","san luong"]};
+function colsInText(q){const f=fold(q),hits=[];pack.cols.map((c,i)=>({c,i,f:fold(c)})).sort((a,b)=>b.f.length-a.f.length).forEach(item=>{if(item.f.length>=2&&f.includes(item.f)&&hits.indexOf(item.i)<0)hits.push(item.i)});Object.values(ROLE).forEach(hints=>{if(!hints.some(h=>f.includes(h)))return;const i=findCol(pack.cols,hints);if(i>=0&&hits.indexOf(i)<0)hits.push(i)});return hits}
+function understand(q){const fq=fold(q);const goal=/top|lon nhat|cao nhat|nhieu nhat/.test(fq)?"rank":/khach hang|nhom|shipper/.test(fq)?"group":"analyze";const topM=fq.match(/(\d+)\s*(khach|dong|shipper|booking|hang)/)||fq.match(/\b(top|lay)\s*(\d+)/);const topN=topM?Number(topM[1]!=="top"&&topM[1]!=="lay"?topM[1]:topM[2]):null;let groupI=-1;if(/khach|shipper|booking|customer|consignee/.test(fq))groupI=findCol(pack.cols,ROLE.customer);const showIdx=colsInText(q);let sortAt=-1;if(/teu|san luong|lon nhat|top/.test(fq))sortAt=findCol(pack.cols,ROLE.teu.concat(ROLE.volume));if(sortAt<0){const hinted=showIdx.filter(i=>isNumCol(i,pack.rows));sortAt=hinted.length?hinted[hinted.length-1]:-1}return{goal,topN,groupI,showIdx,sortAt,dir:/nho nhat|tang/.test(fq)?"asc":"desc"}}
+function execute(plan){let rows=pack.rows.slice();if(plan.groupI>=0){const bag=new Map();rows.forEach(r=>{const key=String(r[plan.groupI]??"").trim()||"(trống)";if(!bag.has(key))bag.set(key,r.map(()=>null));const acc=bag.get(key);acc[plan.groupI]=key;pack.cols.forEach((_,i)=>{if(i===plan.groupI)return;const n=toNumber(r[i]);if(n===null){if(acc[i]==null)acc[i]=r[i]}else acc[i]=(toNumber(acc[i])||0)+n})});rows=[...bag.values()]}if(plan.sortAt>=0)rows.sort((a,b)=>((toNumber(a[plan.sortAt])||0)-(toNumber(b[plan.sortAt])||0))*(plan.dir==="asc"?1:-1));if(plan.topN>0)rows=rows.slice(0,plan.topN);let showIdx=plan.showIdx.slice();if(plan.groupI>=0&&showIdx.indexOf(plan.groupI)<0)showIdx.unshift(plan.groupI);if(!showIdx.length)showIdx=pack.cols.map((_,i)=>i);return{cols:showIdx.map(i=>pack.cols[i]),rows:rows.map(r=>showIdx.map(i=>r[i])),showIdx}}
+$("btn-ask").onclick=()=>{if(!pack.rows.length){$("answer").textContent="Chưa nhập file.";return}const q=($("q").value||"").trim();if(!q){$("answer").textContent="Nhập yêu cầu.";return}const plan=understand(q),result=execute(plan);const understood=["Mục tiêu: "+plan.goal,plan.groupI>=0?"Nhóm ["+pack.cols[plan.groupI]+"]":null,plan.topN?"Lấy "+plan.topN:null,plan.sortAt>=0?"Xếp ["+pack.cols[plan.sortAt]+"]":""].filter(Boolean).join(" · ");view={cols:result.cols,rows:result.rows,note:understood+" · "+result.rows.length+" dòng."};$("answer").textContent="Đã hiểu: "+understood;const facts=["COUNT() = "+result.rows.length];result.showIdx.forEach((src,j)=>{if(!isNumCol(src,pack.rows))return;facts.push("SUM(["+pack.cols[src]+"]) = "+fmt(result.rows.reduce((a,r)=>a+(toNumber(r[j])||0),0))});$("facts").innerHTML=facts.map(x=>"<li>"+x+"</li>").join("");renderPack()};
+function download(name,body,type){const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([body],{type}));a.download=name;a.click()}
+$("btn-export").onclick=async()=>{const kind=$("export-kind").value,base=($("title").value||"bao-cao").replace(/\s+/g,"-");if(kind==="print"){window.print();return}if(!pack.rows.length&&kind!=="json")return;const csv=[pack.cols.join(",")].concat(pack.rows.map(r=>r.map(c=>{const s=c==null?"":String(c);return /[",\n]/.test(s)?'"'+s.replace(/"/g,'""')+'"':s}).join(","))).join("\n");if(kind==="csv")return download(base+".csv",csv,"text/csv");if(kind==="txt")return download(base+".txt",pack.rows.map(r=>r.join("\t")).join("\n"),"text/plain");if(kind==="json")return download(base+".json",JSON.stringify({title:$("title").value,files:pack.files,columns:pack.cols,rows:pack.rows},null,2),"application/json");if(kind==="doc")return download(base+".doc","<html><body><h1>"+($("title").value||"Báo cáo")+"</h1><table border=1><tr>"+pack.cols.map(c=>"<th>"+c+"</th>").join("")+"</tr>"+pack.rows.map(r=>"<tr>"+r.map(c=>"<td>"+(c||"")+"</td>").join("")+"</tr>").join("")+"</table></body></html>","application/msword");try{const XLSX=await loadXlsx();const wb=XLSX.utils.book_new();XLSX.utils.book_append_sheet(wb,XLSX.utils.aoa_to_sheet([pack.cols].concat(pack.rows)),"Bao cao");XLSX.writeFile(wb,base+".xlsx")}catch{download(base+".csv",csv,"text/csv")}};
+$("pw-form").addEventListener("submit",e=>{e.preventDefault();const cur=$("cur").value,nxt=$("nxt").value;if(cur!==UAT_PASS&&cur!==readChanged()){$("pw-msg").textContent="Mật khẩu hiện tại không đúng.";return}if(nxt.length<8){$("pw-msg").textContent="Ít nhất 8 ký tự.";return}writeChanged(nxt);$("pw-msg").textContent="Đã đổi mật khẩu trên máy này."});
+renderPack();boot();
+</script>
+</body></html>
